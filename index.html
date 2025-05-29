@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Hacking Career Roadmap - Modern UI (Vis.js Optimized)</title>
+    <!-- Google Fonts: Poppins for sleek & modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Vis.js Network library -->
+    <script src="https://unpkg.com/vis-network/dist/vis-network.min.js"></script>
+    <!-- Font Awesome for icons (toggle, accordion) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- Base Variables --- */
+            --font-primary: 'Poppins', sans-serif;                      /* Primary font family for modern look */
+            --transition-speed: 0.3s ease-in-out;                   /* Standard smooth transition duration */
+            --border-radius-main: 16px;                             /* Larger border radius for main sections */
+            --border-radius-small: 8px;                              /* Smaller border radius for nested elements */
+
+            /* --- Light Mode Colors (Apple/Minimalist Inspired) --- */
+            --bg-light: #f0f2f5;                                    /* Main page background color (soft off-white) */
+            --bg-glass-light: rgba(255, 255, 255, 0.6);             /* Glassmorphism background for containers (translucent white) */
+            --border-glass-light: rgba(255, 255, 255, 0.8);         /* Glassmorphism border for containers (semi-transparent white) */
+            --text-primary-light: #1c1e21;                          /* Primary text color (very dark grey) */
+            --text-secondary-light: #555b6e;                        /* Secondary text color (softer grey for descriptions) */
+            --accent-primary-light: #007aff;                        /* Main accent color (Apple-like blue) */
+            --accent-secondary-light: #34c759;                      /* Secondary accent color (Apple-like green for success/job) */
+            --shadow-light: 0 8px 32px 0 rgba(31, 38, 135, 0.17);   /* Shadow for light mode elements */
+            --node-text-light: #000000;                             /* Vis.js Node text color - Light Mode (Pure Black for contrast) */
+
+            /* --- Dark Mode Colors (Tesla/Sleek Inspired) --- */
+            --bg-dark: #121212;                                     /* Main page background color (deep off-black) */
+            --bg-glass-dark: rgba(40, 40, 40, 0.6);                 /* Glassmorphism background for containers (translucent dark grey) */
+            --border-glass-dark: rgba(70, 70, 70, 0.8);             /* Glassmorphism border for containers (semi-transparent dark grey) */
+            --text-primary-dark: #FFFFFF;                           /* Primary text color (Pure White for high contrast) */
+            --text-secondary-dark: #FFFFFF;                         /* Secondary text color (Pure White for high contrast) */
+            --accent-primary-dark: #0a84ff;                         /* Main accent color - Dark Mode (brighter blue) */
+            --accent-secondary-dark: #30d158;                       /* Secondary accent color - Dark Mode (brighter green) */
+            --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.37);        /* Shadow for dark mode elements */
+            --node-text-dark: #FFFFFF;                              /* Vis.js Node text color - Dark Mode (Pure White for contrast) */
+
+
+            /* --- Dynamic Node Colors (Unified variables, values switch based on theme) --- */
+            /* These variables hold the CURRENT theme's node colors (light or dark) */
+            --foundational-fill: var(--foundational-fill-light);
+            --foundational-stroke: var(--foundational-stroke-light);
+            --basic-fill: var(--basic-fill-light);
+            --basic-stroke: var(--basic-stroke-light);
+            --intermediate-fill: var(--intermediate-fill-light);
+            --intermediate-stroke: var(--intermediate-stroke-light);
+            --advanced-fill: var(--advanced-fill-light);
+            --advanced-stroke: var(--advanced-stroke-light);
+            --expert-fill: var(--expert-fill-light);
+            --expert-stroke: var(--expert-stroke-light);
+            --job-fill: var(--job-fill-light);
+            --job-stroke: var(--job-stroke-light);
+            --certification-fill: var(--certification-fill-light);
+            --certification-stroke: var(--certification-stroke-light);
+
+            /* --- Node Colors - Light Theme Specific Palettes --- */
+            --foundational-fill-light: #e6ffb3;                     /* Light Lime Green */
+            --foundational-stroke-light: #7cb342;                   /* Medium Green */
+            
+            --basic-fill-light: #d1e9ff;                            /* Light Blue */
+            --basic-stroke-light: #42a5f5;                          /* Medium Blue */
+            
+            --intermediate-fill-light: #fff0b3;                     /* Light Yellow */
+            --intermediate-stroke-light: #ffb300;                   /* Amber */
+            
+            --advanced-fill-light: #ffd9b3;                         /* Light Orange */
+            --advanced-stroke-light: #fb8c00;                       /* Orange */
+            
+            --expert-fill-light: #e1bee7;                           /* Light Purple */
+            --expert-stroke-light: #8e24aa;                         /* Purple */
+            
+            --job-fill-light: #c8e6c9;                              /* Light Green */
+            --job-stroke-light: var(--accent-secondary-light);      /* Uses main accent green */
+
+            --certification-fill-light: #ffe0b2;                    /* Pale Orange */
+            --certification-stroke-light: #f57c00;                  /* Dark Orange */
+            
+            /* --- Node Colors - Dark Theme Specific Palettes (Optimized for contrast) --- */
+            --foundational-fill-dark: #385723;                      /* Dark Olive Green */
+            --foundational-stroke-dark: #a5d6a7;                    /* Light Mint Green */
+            
+            --basic-fill-dark: #1e3a5f;                             /* Dark Blue */
+            --basic-stroke-dark: #90caf9;                           /* Light Sky Blue */
+            
+            --intermediate-fill-dark: #5f4300;                      /* Dark Amber/Brown */
+            --intermediate-stroke-dark: #ffe082;                    /* Pale Yellow */
+            
+            --advanced-fill-dark: #6d3000;                          /* Dark Orange/Brown */
+            --advanced-stroke-dark: #ffcc80;                        /* Light Peach */
+            
+            --expert-fill-dark: #4a148c;                            /* Deep Purple */
+            --expert-stroke-dark: #ce93d8;                          /* Light Lavender */
+            
+            --job-fill-dark: #1b5e20;                               /* Dark Green */
+            --job-stroke-dark: var(--accent-secondary-dark);        /* Uses main accent green */
+
+            --certification-fill-dark: #6a3f00;                     /* Dark Orange/Brown */
+            --certification-stroke-dark: #ffab40;                   /* Light Orange */
+        }
+
+        /* Universal Box-Sizing for consistent layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body Styling */
+        html {
+            /* Apply current theme variables to html element */
+            background-color: var(--bg-current);
+            color: var(--text-primary-current);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6; /* Improved readability */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            /* Inherit colors from html element */
+            color: inherit; 
+            background-color: inherit;
+        }
+
+        /* Dynamic Theme Variable Assignment (when .dark-mode class is active on <html>) */
+        /* These 'current' variables are aliases that point to either light or dark theme values */
+        html.dark-mode { /* Target <html> element */
+            --bg-current: var(--bg-dark); /* Sets current background to dark mode value */
+            --bg-glass-current: var(--bg-glass-dark);
+            --border-glass-current: var(--border-glass-dark);
+            --text-primary-current: var(--text-primary-dark);
+            --text-secondary-current: var(--text-secondary-dark);
+            --accent-primary-current: var(--accent-primary-dark);
+            --accent-secondary-current: var(--accent-secondary-dark);
+            --shadow-current: var(--shadow-dark);
+            --node-text-current: var(--node-text-dark); /* Node text for dark mode */
+
+            /* Update dynamic node colors for dark mode */
+            --foundational-fill: var(--foundational-fill-dark);
+            --foundational-stroke: var(--foundational-stroke-dark);
+            --basic-fill: var(--basic-fill-dark);
+            --basic-stroke: var(--basic-stroke-dark);
+            --intermediate-fill: var(--intermediate-fill-dark);
+            --intermediate-stroke: var(--intermediate-stroke-dark);
+            --advanced-fill: var(--advanced-fill-dark);
+            --advanced-stroke: var(--advanced-stroke-dark);
+            --expert-fill: var(--expert-fill-dark);
+            --expert-stroke: var(--expert-stroke-dark);
+            --job-fill: var(--job-fill-dark);
+            --job-stroke: var(--job-stroke-dark);
+            --certification-fill: var(--certification-fill-dark);
+            --certification-stroke: var(--certification-stroke-dark);
+        }
+        
+        /* Dynamic Theme Variable Assignment (when .dark-mode is NOT active) */
+        /* These point to light mode values, ensuring they are always set */
+        html:not(.dark-mode) { /* Targets html when it does NOT have dark-mode class */
+            --bg-current: var(--bg-light);
+            --bg-glass-current: var(--bg-glass-light);
+            --border-glass-current: var(--border-glass-light);
+            --text-primary-current: var(--text-primary-light);
+            --text-secondary-current: var(--text-secondary-light);
+            --accent-primary-current: var(--accent-primary-light);
+            --accent-secondary-current: var(--accent-secondary-light);
+            --shadow-current: var(--shadow-light);
+            --node-text-current: var(--node-text-light); /* Node text for light mode */
+
+            /* Update dynamic node colors for light mode */
+            --foundational-fill: var(--foundational-fill-light);
+            --foundational-stroke: var(--foundational-stroke-light);
+            --basic-fill: var(--basic-fill-light);
+            --basic-stroke: var(--basic-stroke-light);
+            --intermediate-fill: var(--intermediate-fill-light);
+            --intermediate-stroke: var(--intermediate-stroke-light);
+            --advanced-fill: var(--advanced-fill-light);
+            --advanced-stroke: var(--advanced-stroke-light);
+            --expert-fill: var(--expert-fill-light);
+            --expert-stroke: var(--expert-stroke-light);
+            --job-fill: var(--job-fill-light);
+            --job-stroke: var(--job-stroke-light);
+            --certification-fill: var(--certification-fill-light);
+            --certification-stroke: var(--certification-stroke-light);
+        }
+        
+
+        /* Page Layout and General Section Styling */
+        .page-wrapper {
+            max-width: 1200px; /* Max content width */
+            margin: 0 auto; /* Center content */
+            padding: 20px; /* Consistent padding around content */
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--accent-primary-current); /* Dynamic accent color */
+            letter-spacing: -0.5px;
+            transition: color var(--transition-speed);
+        }
+
+        /* Dark Mode Toggle - Sleek Switch Design */
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .dark-mode-toggle input[type="checkbox"] {
+            display: none; /* Hide default checkbox */
+        }
+        .toggle-slider {
+            width: 50px;
+            height: 26px;
+            background-color: #ccc; /* Light mode track color */
+            border-radius: 26px;
+            position: relative;
+            transition: background-color var(--transition-speed);
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: white; /* Slider thumb color */
+            top: 2px;
+            left: 2px;
+            transition: transform var(--transition-speed);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle input:checked + .toggle-slider {
+            background-color: var(--accent-primary-current); /* Track color when dark mode is active */
+        }
+        .dark-mode-toggle input:checked + .toggle-slider::before {
+            transform: translateX(24px); /* Moves thumb to the right */
+        }
+        .toggle-icon {
+            margin-left: 10px;
+            font-size: 1.2em;
+            color: var(--text-secondary-current); /* Dynamic secondary text color */
+            transition: color var(--transition-speed);
+        }
+        html.dark-mode .toggle-icon { color: var(--accent-primary-current); } /* Accent color for icon in dark mode */
+
+
+        /* General Content Section (Glassmorphism effect) */
+        .content-section {
+            background: var(--bg-glass-current); /* Translucent background */
+            border: 1px solid var(--border-glass-current); /* Translucent border */
+            border-radius: var(--border-radius-main); /* Rounded corners */
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-current); /* Dynamic shadow */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            transition: background var(--transition-speed), border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .content-section h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--accent-primary-current); /* Dynamic accent color for headings */
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-primary-current);
+            transition: color var(--transition-speed), border-color var(--transition-speed);
+        }
+        
+        /* Ensure all text within content sections uses dynamic text colors */
+        .content-section p, 
+        .content-section li {
+            color: var(--text-secondary-current); /* Secondary text for general paragraphs/list items */
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            transition: color var(--transition-speed);
+        }
+        .content-section strong {
+            color: var(--text-primary-current); /* Primary text for strong elements (e.g., bolded titles within lists) */
+            font-weight: 600;
+            transition: color var(--transition-speed);
+        }
+
+        /* Vis.js Network Container */
+        #visNetwork {
+            height: 600px; 
+            width: 100%;
+            background-color: transparent; /* Transparent to show the parent section's glassmorphism */
+            border-radius: var(--border-radius-small);
+            cursor: grab; /* Indicate it's draggable */
+        }
+        #visNetwork:active {
+            cursor: grabbing;
+        }
+
+        /* Legend Section */
+        .legend ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 15px;
+        }
+        .legend li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-glass-current); /* Subtle separator */
+            transition: border-color var(--transition-speed);
+        }
+         .legend li:last-child { border-bottom: none; } /* No border on last item */
+
+        /* Legend Text Colors. Forces text to pure white in dark mode. */
+        .legend-color { font-weight: 600; }
+        /* The colored bullet point itself retains its dynamic color */
+        .foundational-legend-color { color: var(--foundational-stroke); }
+        .basic-legend-color { color: var(--basic-stroke); }
+        .intermediate-legend-color { color: var(--intermediate-stroke); }
+        .advanced-legend-color { color: var(--advanced-stroke); }
+        .expert-legend-color { color: var(--expert-stroke); }
+        .job-legend-color { color: var(--job-stroke); }
+        .certification-legend-color { color: var(--certification-stroke); }
+
+        /* **CRITICAL FIX**: Force the *text* of the legend items to pure white in dark mode for maximum contrast. */
+        html.dark-mode .legend strong.legend-color,
+        html.dark-mode .legend li { /* Also apply to overall list item text */
+            color: #FFFFFF !important; /* Use !important to ensure this overrides other rules for contrast */
+        }
+
+
+        /* Specific text colors for certain list items (soft skills/resources) */
+        /* These now correctly inherit from --text-secondary-current, which is pure white in dark mode */
+        .soft-skill-text, .resource-text {
+            color: var(--text-secondary-current); /* Uses dynamic secondary text color */
+            transition: color var(--transition-speed);
+        }
+        
+        /* Accordion Styling for Learning Path (interactive elements) */
+        .accordion-item {
+            margin-bottom: 15px;
+            border-radius: var(--border-radius-small);
+            overflow: hidden; /* Essential for max-height animation */
+            border: 1px solid var(--border-glass-current);
+            transition: border-color var(--transition-speed);
+        }
+        .accordion-header {
+            background-color: rgba(0,0,0,0.03); /* Subtle light background */
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color var(--transition-speed);
+        }
+        html.dark-mode .accordion-header {
+            background-color: rgba(255,255,255,0.05); /* Subtle dark background */
+        }
+        .accordion-header:hover {
+            background-color: rgba(0,0,0,0.06); /* Slightly darker on hover */
+        }
+        html.dark-mode .accordion-header:hover {
+             background-color: rgba(255,255,255,0.08); /* Slightly lighter on hover in dark mode */
+        }
+        .accordion-header strong {
+            font-size: 1.1em;
+            color: var(--text-primary-current); /* Dynamic primary text color */
+        }
+        .accordion-icon {
+            font-size: 1em;
+            color: var(--accent-primary-current); /* Dynamic accent color */
+            transition: transform var(--transition-speed);
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg); /* Rotates plus icon to form a close/minus icon */
+        }
+        .accordion-content {
+            max-height: 0; /* Hidden by default */
+            overflow: hidden;
+            padding: 0 20px;
+            background-color: transparent; /* Allows glassmorphism to show through */
+            transition: max-height 0.4s ease-out, padding var(--transition-speed); /* Smooth expand/collapse */
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* Sufficiently large to reveal content */
+            padding: 20px; /* Reveals padding on open */
+        }
+        .accordion-content ul {
+            list-style-position: inside; /* Bullets inside content flow */
+            padding-left: 5px;
+        }
+        .accordion-content ul li { margin-bottom: 8px; }
+
+        /* Flowchart Toggle Controls (These CSS rules are now unused as the HTML is removed) */
+        /* .flowchart-toggles { display: none; } */
+        /* .toggle-group, .toggle-group input[type="checkbox"], .toggle-group label {} */
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2em;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .content-section {
+                padding: 20px;
+            }
+            .legend ul {
+                grid-template-columns: 1fr; /* Single column on smaller screens */
+            }
+            #visNetwork {
+                height: 450px; /* Adjust height for smaller screens */
+            }
+            .accordion-header strong { font-size: 1em; }
+        }
+        @media (max-width: 480px) {
+            .page-title { font-size: 1.8em; }
+            .content-section h3 { font-size: 1.3em; }
+            #visNetwork { height: 400px; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="page-header">
+            <h1 class="page-title">Ethical Hacking Roadmap</h1>
+            <label class="dark-mode-toggle" for="darkModeToggle" aria-label="Toggle dark mode">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="toggle-slider"></span>
+                <i class="fas fa-moon toggle-icon" id="modeIcon"></i>
+            </label>
+        </header>
+
+        <section class="content-section" id="roadmap-visualization">
+            <h3>Career Visualization</h3>
+            <!-- REMOVED: The entire .flowchart-toggles div and its content -->
+            <div id="visNetwork">
+                <!-- Vis.js Network will be rendered here -->
+            </div>
+        </section>
+
+        <section class="content-section" id="legend-section">
+            <h3>Legend</h3>
+            <ul class="legend">
+                <li><strong class="legend-color foundational-legend-color">● Foundational Skills:</strong> Core knowledge for any tech field.</li>
+                <li><strong class="legend-color basic-legend-color">● Basic Skills:</b> Entry-level security concepts.</li>
+                <li><strong class="legend-color intermediate-legend-color">● Intermediate Skills:</strong> Building specialized knowledge.</li>
+                <li><strong class="legend-color advanced-legend-color">● Advanced Skills:</b> Deep dive into complex topics.</li>
+                <li><strong class="legend-color expert-legend-color">● Expert Skills:</strong> Mastery and research focus.</li>
+                <li><strong class="legend-color job-legend-color">● Potential Job Roles:</b> Career opportunities.</li>
+                <li><strong class="legend-color certification-legend-color">● Certifications:</strong> Industry qualifications.</li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="learning-path">
+            <h3>Recommended Learning Path</h3>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <strong>Phase 1: Foundational & Basic (3-9 months)</strong>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul>
+                            <li><strong>Foundational:</strong> Dive deep into computer architecture, operating systems (especially Linux), networking (TCP/IP, common protocols, routing), and strong programming logic (Python, C, Bash are key). Understand fundamental data structures, algorithms, and OS internals.</li>
+                            <li><strong>Basic Security:</strong> Grasp cybersecurity principles, common vulnerabilities (OWASP Top 10 intro), basic command-line tools, and ethical considerations.</li>
+                            <li><strong>Certifications:</strong> CompTIA A+, Network+, Security+ are excellent starting points.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <strong>Phase 2: Intermediate Specialization (6-18 months)</strong>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul>
+                            <li><strong>Web Security:</strong> Focus on web application vulnerabilities, secure coding, web proxies (Burp Suite).</li>
+                            <li><strong>Network Security:</b> Learn firewall concepts, IDS/IPS, VPNs, and network scanning tools (Nmap).</li>
+                            <li><strong>Cryptography:</strong> Understand ciphers, hashing, PKI, and common crypto attacks.</li>
+                            <li><strong>Digital Forensics:</strong> Basic incident response, evidence collection, and analysis tools.</li>
+                            <li><strong>Cloud & Mobile Security Basics:</strong> Introduction to specific vulnerabilities and best practices for common platforms.</li>
+                            <li><span class="soft-skill-text"><strong>Communication & Documentation:</strong></span> Vital for explaining findings and creating reports.</li>
+                            <li><strong>Certifications:</strong> EC-Council CEH, eJPT, PNPT, GIAC GSEC.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <strong>Phase 3: Advanced Deep Dive (1-3 years)</strong>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul>
+                           <li><strong>Malware Analysis:</strong> Static and dynamic analysis techniques, sandboxing, behavioral analysis.</li>
+                            <li><strong>Reverse Engineering:</strong> Disassemblers (IDA Pro, Ghidra), debuggers (x64dbg), understanding assembly.</li>
+                            <li><strong>Exploitation Development:</strong> Buffer overflows, ROP chains, shellcoding, heap exploitation, kernel exploitation.</li>
+                            <li><strong>Advanced Cloud/Mobile Security:</strong> Deep dive into specific cloud provider vulnerabilities, mobile app reverse engineering.</li>
+                            <li><strong>Active Directory/Enterprise Security:</strong> Understanding large network attack vectors.</li>
+                            <li><strong>DevSecOps:</strong> Integrating security into the SDLC.</li>
+                            <li><strong>Threat Intelligence:</strong> Gathering, analyzing, and acting on threat data.</li>
+                            <li><strong>GRC (Governance, Risk, Compliance):</strong> Frameworks, policies, and regulations.</li>
+                            <li><strong>Fuzzing:</strong> Finding vulnerabilities through automated input generation.</li>
+                            <li><strong>Certifications:</strong> OSCP, OSWE, OSEP, CRTP, SANS GIAC (GPEN, GWAPT, GMON).</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <div class="accordion-header">
+                        <strong>Phase 4: Expert & Research (2+ years)</strong>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul>
+                            <li><strong>Security Research & Development:</strong> Identifying new vulnerabilities, advanced threat modeling, developing custom tools.</li>
+                            <li><strong>Zero-Day Discovery:</strong> Advanced techniques for finding previously unknown vulnerabilities.</li>
+                            <li><strong>Advanced Forensics & Incident Response:</b> Memory forensics, malware attribution, complex incident reconstruction.</li>
+                            <li><strong>IoT/OT Security:</strong> Specialized knowledge for embedded systems, industrial control systems.</li>
+                            <li><strong>Certifications:</strong> OSEE, OSCE3, SANS GSE, CREST.</li>
+                            <li><span class="soft-skill-text"><strong>Mentorship & Leadership:</strong></span> Guiding professionals, leading initiatives.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="certifications-path">
+            <h3>Certifications Path</h3>
+            <p>Practical experience and continuous learning are paramount. Focus on hands-on labs.</p>
+            <ul>
+                <li><strong>Foundational/Basic:</strong> CompTIA A+, Network+, Security+</li>
+                <li><strong>Intermediate:</strong> CEH, eJPT, PNPT, GIAC GSEC</li>
+                <li><strong>Advanced:</strong> OSCP, OSWE, OSEP, CRTP, CISSP, GIAC (GPEN, GWAPT, GMON)</li>
+                <li><strong>Expert:</b> OSEE, OSCE3, SANS GSE, CREST certifications</li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="soft-skills">
+            <h3>Crucial Soft Skills</h3>
+            <ul>
+                <li><span class="soft-skill-text"><strong>Ethics & Integrity:</strong></span> Paramount. Adhere to legal/ethical boundaries.</li>
+                <li><span class="soft-skill-text"><strong>Problem Solving:</strong></span> Deconstruct puzzles, find creative solutions.</li>
+                <li><span class="soft-skill-text"><strong>Communication:</b></span> Articulate risks and findings clearly.</li>
+                <li><span class="soft-skill-text"><strong>Continuous Learning:</strong></span> Cybersecurity evolves constantly.</li>
+                <li><span class="soft-skill-text"><strong>Attention to Detail:</strong></span> Identify subtle vulnerabilities.</li>
+                <li><span class="soft-skill-text"><strong>Patience & Persistence:</b></span> Hacking involves trial and error.</li>
+                <li><span class="soft-skill-text"><strong>Teamwork & Collaboration:</strong></span> Work with diverse teams.</li>
+                <li><span class="soft-skill-text"><strong>Adaptability:</strong></span> Quickly learn new tech and methods.</li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="learning-resources">
+            <h3>Recommended Learning Resources</h3>
+            <ul>
+                <li><span class="resource-text"><strong>Platforms:</strong> TryHackMe, Hack The Box, PortSwigger Web Security Academy, PentesterLab.</span></li>
+                <li><span class="resource-text"><strong>Books:</strong> "Hacking: The Art of Exploitation", "Web App Hacker's Handbook".</li>
+                <li><span class="resource-text"><strong>CTFs:</strong> Participate via CTFTime.org.</li>
+                <li><span class="resource-text"><strong>Labs:</strong> Build a home lab (VirtualBox, VMware).</li>
+                <li><span class="resource-text"><strong>Community:</strong> Blogs, forums (r/netsec), Discord servers.</li>
+                <li><span class="resource-text"><strong>Events:</b> Conferences (Black Hat, DEF CON) & local meetups.</li>
+                <li><span class="resource-text"><strong>Open Source:</strong> Study/contribute to tools (Metasploit, Nmap).</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        let network = null;
+        let nodesVisDataSet = null; // Vis.js DataSet for nodes
+        let edgesVisDataSet = null; // Vis.js DataSet for edges
+
+        const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+        // Node and Edge Data for Vis.js
+        // Labels shortened for better fit in Vis.js box shape and cleaner layout
+        const allNodesData = [
+            { id: 'Start', label: 'Start', group: 'foundational' },
+            { id: 'FoundationalIT', label: 'IT Concepts', group: 'foundational' },
+            { id: 'CompArch', label: 'Comp. Arch', group: 'foundational' },
+            { id: 'OSInternals', label: 'OS (Linux)', group: 'foundational' },
+            { id: 'DataStructures', label: 'Data Struct.', group: 'foundational' },
+            { id: 'Networking', label: 'Networking', group: 'foundational' },
+            { id: 'Programming', label: 'Programming', group: 'foundational' },
+            
+            { id: 'CyberSecIntro', label: 'CyberSec Intro', group: 'basic' },
+            { id: 'BasicTools', label: 'Basic Tools', group: 'basic' },
+            { id: 'VulnManagement', label: 'Vuln. Mgmt', group: 'basic' },
+            
+            { id: 'WebSec', label: 'Web App Sec', group: 'intermediate' },
+            { id: 'NetSec', label: 'Network Sec', group: 'intermediate' },
+            { id: 'Crypto', label: 'Cryptography', group: 'intermediate' },
+            { id: 'ForensicsBasic', label: 'Forensics Basics', group: 'intermediate' },
+            { id: 'CloudSecBasic', label: 'Cloud Sec Basics', group: 'intermediate' },
+            { id: 'MobileSecBasic', label: 'Mobile Sec Basics', group: 'intermediate' },
+            
+            { id: 'MalwareAnalysis', label: 'Malware Analysis', group: 'advanced' },
+            { id: 'RevEng', label: 'Reverse Eng.', group: 'advanced' },
+            { id: 'ExploitDev', label: 'Exploit Dev', group: 'advanced' },
+            { id: 'AdvCloudSec', label: 'Adv. Cloud Sec', group: 'advanced' },
+            { id: 'AdvMobileSec', label: 'Adv. Mobile Sec', group: 'advanced' },
+            { id: 'AD_Enterprise', label: 'AD/Enterprise', group: 'advanced' },
+            { id: 'DevSecOps', label: 'DevSecOps', group: 'advanced' },
+            { id: 'ThreatIntel', label: 'Threat Intel', group: 'advanced' },
+            { id: 'GRC', label: 'GRC', group: 'advanced' },
+            { id: 'Fuzzing', label: 'Fuzzing', group: 'advanced' },
+
+            { id: 'KernelExploit', label: 'Kernel Exploit', group: 'expert' },
+            { id: 'AdvRevEng', label: 'Adv. Rev. Eng.', group: 'expert' },
+            { id: 'ZeroDay', label: 'Zero-Day', group: 'expert' },
+            { id: 'AdvForensics', label: 'Adv. Forensics', group: 'expert' },
+            { id: 'IoT_OT_Sec', label: 'IoT/OT Sec', group: 'expert' },
+            { id: 'HardwareHacking', label: 'Hardware Hack', group: 'expert' },
+            { id: 'SecurityResearch', label: 'Sec Research', group: 'expert' },
+
+            // Job Roles (Hexagon shape)
+            { id: 'SecAnalyst', label: 'Sec Analyst', group: 'job', shape: 'hexagon' },
+            { id: 'PenTester', label: 'Pen Tester', group: 'job', shape: 'hexagon' },
+            { id: 'WebAppPentester', label: 'Web PenTest', group: 'job', shape: 'hexagon' },
+            { id: 'NetworkPentester', label: 'Net PenTest', group: 'job', shape: 'hexagon' },
+            { id: 'CloudSecEngineer', label: 'Cloud Sec Eng.', group: 'job', shape: 'hexagon' },
+            { id: 'MobileSecAnalyst', label: 'Mobile Sec Analyst', group: 'job', shape: 'hexagon' },
+            { id: 'ForensicsExp', label: 'Forensics Exp.', group: 'job', shape: 'hexagon' },
+            { id: 'IncidentResp', label: 'Incident Resp.', group: 'job', shape: 'hexagon' },
+            { id: 'MalwareAnalyst', label: 'Malware Analyst', group: 'job', shape: 'hexagon' },
+            { id: 'ReverseEngineerJob', label: 'Reverse Eng.', group: 'job', shape: 'hexagon' },
+            { id: 'ExploitDevEng', label: 'Exploit Dev', group: 'job', shape: 'hexagon' },
+            { id: 'RedTeamOp', label: 'Red Team Op', group: 'job', shape: 'hexagon' },
+            { id: 'ThreatHunter', label: 'Threat Hunter', group: 'job', shape: 'hexagon' },
+            { id: 'DevSecOpsEng', label: 'DevSecOps Eng.', group: 'job', shape: 'hexagon' },
+            { id: 'GRCSpec', label: 'GRC Specialist', group: 'job', shape: 'hexagon' },
+            { id: 'SecurityArch', label: 'Sec Architect', group: 'job', shape: 'hexagon' },
+            { id: 'VulnerabilityRes', label: 'Vuln. Researcher', group: 'job', shape: 'hexagon' },
+
+            // Certifications (Diamond shape)
+            { id: 'CompTIABasic', label: 'CompTIA A+/N+/S+', group: 'certification', shape: 'diamond' },
+            { id: 'CEH_eJPT_PNPT', label: 'CEH/eJPT/PNPT', group: 'certification', shape: 'diamond' },
+            { id: 'GIACGSEC', label: 'GIAC GSEC', group: 'certification', shape: 'diamond' },
+            { id: 'OSCP_OSWE_OSEP', label: 'OSCP/WE/EP', group: 'certification', shape: 'diamond' }, 
+            { id: 'SANSGIAC', label: 'SANS GIAC', group: 'certification', shape: 'diamond' }, 
+            { id: 'CISSP_CISM', label: 'CISSP/CISM', group: 'certification', shape: 'diamond' },
+            { id: 'OSCE3_OSEE', label: 'OSCE3/OSEE', group: 'certification', shape: 'diamond' }, 
+        ];
+
+        const allEdgesData = [
+            // Foundational Connections
+            { from: 'Start', to: 'FoundationalIT' },
+            { from: 'FoundationalIT', to: 'CompArch' },
+            { from: 'FoundationalIT', to: 'OSInternals' },
+            { from: 'FoundationalIT', to: 'Networking' },
+            { from: 'FoundationalIT', to: 'Programming' },
+            { from: 'Programming', to: 'DataStructures' },
+
+            // Basic Connections
+            { from: 'CompArch', to: 'CyberSecIntro' },
+            { from: 'OSInternals', to: 'CyberSecIntro' },
+            { from: 'Networking', to: 'CyberSecIntro' },
+            { from: 'Programming', to: 'CyberSecIntro' },
+            { from: 'CyberSecIntro', to: 'BasicTools' },
+            { from: 'CyberSecIntro', to: 'VulnManagement' },
+
+            // Basic to Intermediate
+            { from: 'BasicTools', to: 'WebSec' },
+            { from: 'BasicTools', to: 'NetSec' },
+            { from: 'BasicTools', to: 'ForensicsBasic' },
+            { from: 'VulnManagement', to: 'WebSec' },
+            { from: 'VulnManagement', to: 'NetSec' },
+            { from: 'Networking', to: 'NetSec' },
+            { from: 'Programming', to: 'Crypto' },
+            { from: 'Networking', to: 'CloudSecBasic' },
+            { from: 'Programming', to: 'MobileSecBasic' },
+
+            // Intermediate to Advanced
+            { from: 'WebSec', to: 'ExploitDev' },
+            { from: 'WebSec', to: 'AdvCloudSec' }, // Web apps often in cloud
+            { from: 'NetSec', to: 'AD_Enterprise' },
+            { from: 'NetSec', to: 'DevSecOps' },
+            { from: 'Programming', to: 'MalwareAnalysis' },
+            { from: 'Programming', to: 'RevEng' },
+            { from: 'Crypto', to: 'ExploitDev' },
+            { from: 'ForensicsBasic', to: 'AdvForensics' },
+            { from: 'CloudSecBasic', to: 'AdvCloudSec' },
+            { from: 'MobileSecBasic', to: 'AdvMobileSec' },
+            { from: 'Programming', to: 'Fuzzing' },
+            { from: 'Programming', to: 'ThreatIntel' }, // Scripting for threat intel
+            { from: 'CyberSecIntro', to: 'GRC' }, // GRC needs basic understanding
+
+            // Advanced to Expert
+            { from: 'MalwareAnalysis', to: 'AdvRevEng' },
+            { from: 'MalwareAnalysis', to: 'SecurityResearch' },
+            { from: 'RevEng', to: 'AdvRevEng' },
+            { from: 'RevEng', to: 'KernelExploit' },
+            { from: 'ExploitDev', to: 'KernelExploit' },
+            { from: 'ExploitDev', to: 'ZeroDay' },
+            { from: 'AdvCloudSec', to: 'IoT_OT_Sec' },
+            { from: 'AdvMobileSec', to: 'HardwareHacking' },
+            { from: 'AD_Enterprise', to: 'RedTeamOp' },
+            { from: 'Fuzzing', to: 'ZeroDay' },
+            { from: 'ThreatIntel', to: 'SecurityResearch' },
+            { from: 'AdvForensics', to: 'ThreatHunter' },
+
+            // Certifications Path
+            { from: 'FoundationalIT', to: 'CompTIABasic' },
+            { from: 'CyberSecIntro', to: 'CompTIABasic' },
+            { from: 'WebSec', to: 'CEH_eJPT_PNPT' },
+            { from: 'NetSec', to: 'CEH_eJPT_PNPT' },
+            { from: 'CyberSecIntro', to: 'GIACGSEC' },
+            { from: 'NetSec', to: 'GIACGSEC' },
+            { from: 'ForensicsBasic', to: 'GIACGSEC' },
+            { from: 'ExploitDev', to: 'OSCP_OSWE_OSEP' },
+            { from: 'WebSec', to: 'OSCP_OSWE_OSEP' },
+            { from: 'NetSec', to: 'OSCP_OSWE_OSEP' },
+            { from: 'MalwareAnalysis', to: 'SANSGIAC' },
+            { from: 'RevEng', to: 'SANSGIAC' },
+            { from: 'AdvCloudSec', to: 'SANSGIAC' },
+            { from: 'AdvForensics', to: 'SANSGIAC' },
+            { from: 'GRC', to: 'CISSP_CISM' },
+            { from: 'SecurityResearch', to: 'CISSP_CISM' },
+            { from: 'ZeroDay', to: 'OSCE3_OSEE' },
+            { from: 'KernelExploit', to: 'OSCE3_OSEE' },
+
+            // Skill to Job Role Mapping
+            { from: 'CyberSecIntro', to: 'SecAnalyst' },
+            { from: 'VulnManagement', to: 'SecAnalyst' },
+            { from: 'NetSec', to: 'SecAnalyst' },
+            { from: 'ForensicsBasic', to: 'IncidentResp' },
+            { from: 'ThreatIntel', to: 'ThreatHunter' },
+            { from: 'SecAnalyst', to: 'ThreatHunter' },
+            { from: 'WebSec', to: 'WebAppPentester' },
+            { from: 'NetSec', to: 'NetworkPentester' },
+            { from: 'WebAppPentester', to: 'PenTester' } ,
+            { from: 'NetworkPentester', to: 'PenTester' },
+            { from: 'CloudSecEngineer', to: 'CloudSecEngineer' },
+            { from: 'ForensicsExp', to: 'ForensicsExp' },
+            { from: 'IncidentResp', to: 'ForensicsExp' }, 
+            { from: 'ExploitDev', to: 'ExploitDevEng' },
+            { from: 'RedTeamOp', to: 'ExploitDevEng' },
+            { from: 'AD_Enterprise', to: 'RedTeamOp' },
+            { from: 'ExploitDevEng', to: 'RedTeamOp' },
+            { from: 'RedTeamOp', to: 'VulnerabilityRes' },
+            { from: 'Fuzzing', to: 'VulnerabilityRes' },
+            { from: 'SecurityResearch', to: 'VulnerabilityRes' },
+            { from: 'DevSecOps', to: 'DevSecOpsEng' },
+            { from: 'GRC', to: 'GRCSpec' },
+            { from: 'SecurityArch', to: 'SecurityArch' },
+            { from: 'AdvCloudSec', to: 'SecurityArch' },
+            { from: 'IoT_OT_Sec', to: 'SecurityArch' },
+            { from: 'HardwareHacking', to: 'SecurityArch' },
+
+            // **FIXED CONNECTIONS as requested**
+            { from: 'AdvMobileSec', to: 'MobileSecAnalyst' },
+            { from: 'MalwareAnalysis', to: 'MalwareAnalyst' },
+            { from: 'RevEng', to: 'MalwareAnalyst' } 
+        ];
+
+
+        function renderVisGraph() {
+            const container = document.getElementById('visNetwork');
+            const isDarkMode = document.documentElement.classList.contains('dark-mode'); 
+
+            // Initialize DataSets if they don't exist, otherwise update them
+            // All nodes and edges are visible by default and will remain visible.
+            if (!nodesVisDataSet) {
+                nodesVisDataSet = new vis.DataSet(allNodesData);
+                edgesVisDataSet = new vis.DataSet(allEdgesData);
+            } else {
+                // When re-rendering, ensure all nodes are visible
+                nodesVisDataSet.update(allNodesData.map(node => ({ id: node.id, hidden: false })));
+                edgesVisDataSet.update(allEdgesData.map(edge => ({ id: edge.id || (edge.from + '-' + edge.to), hidden: false }))); // Using dynamic ID for edges if not already present
+            }
+
+            // Get dynamic colors based on current theme
+            const nodeTextColor = getCssVar('--node-text-current'); 
+            const linkColor = isDarkMode ? '#777' : '#bbb'; 
+            const nodeShadowColor = isDarkMode ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.15)'; 
+            const edgeShadowColor = isDarkMode ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)'; 
+            const accentPrimaryColor = getCssVar('--accent-primary-current');
+
+            // **OPTIMIZED VIS.JS OPTIONS (from Super Prompt with enhanced spacing)**
+            const options = {
+                layout: {
+                    hierarchical: {
+                        enabled: true,
+                        direction: "UD", // Top to bottom flow
+                        sortMethod: "directed", // Keeps logical flow
+                        levelSeparation: 200, // **ENHANCED:** More spacing between levels for decluttering
+                        nodeSpacing: 180, // **ENHANCED:** More space between nodes on the same level
+                        treeSpacing: 350, // **ENHANCED:** More space between branches for decluttering
+                        blockShifting: true,
+                        edgeMinimization: true,
+                        parentCentralization: true,
+                    },
+                },
+                physics: {
+                    enabled: false, // Prevent movement for a stable layout
+                },
+                nodes: {
+                    shape: "box",
+                    margin: 10,
+                    font: {
+                        size: 14,
+                        multi: true, // Enables text wrapping
+                        face: "Poppins", // Retained Poppins from current UI
+                        color: nodeTextColor, // Dynamic node text color (black/white)
+                        strokeWidth: 0, 
+                        bold: { size: 14, face: 'Poppins', color: nodeTextColor }, // Ensure bold text matches
+                    },
+                    borderWidth: 2,
+                    borderWidthSelected: 3,
+                    shadow: {
+                        enabled: true,
+                        size: 8,
+                        x: 2,
+                        y: 2,
+                        color: nodeShadowColor, // Dynamic shadow color
+                    },
+                },
+                edges: {
+                    arrows: {
+                        to: { enabled: true, scaleFactor: 0.8 },
+                    },
+                    smooth: {
+                        enabled: true,
+                        type: "cubicBezier",
+                        roundness: 0.4,
+                    },
+                    color: {
+                        color: linkColor, // Dynamic link color
+                        highlight: accentPrimaryColor, // Highlight with dynamic accent color
+                        hover: accentPrimaryColor, // Hover with dynamic accent color
+                        inherit: false,
+                    },
+                    width: 1.5,
+                    shadow: {
+                        enabled: true,
+                        color: edgeShadowColor,
+                        size: 5, x: 2, y: 2
+                    }
+                },
+                interaction: {
+                    navigationButtons: true, // Show navigation controls
+                    tooltipDelay: 200,
+                    zoomView: true,
+                    dragView: true,
+                    hover: true,
+                    dragNodes: true,
+                },
+                groups: { // Node group colors are dynamically set based on current theme
+                    foundational: { color: { background: getCssVar('--foundational-fill'), border: getCssVar('--foundational-stroke')}},
+                    basic: { color: { background: getCssVar('--basic-fill'), border: getCssVar('--basic-stroke')}},
+                    intermediate: { color: { background: getCssVar('--intermediate-fill'), border: getCssVar('--intermediate-stroke')}},
+                    advanced: { color: { background: getCssVar('--advanced-fill'), border: getCssVar('--advanced-stroke')}},
+                    expert: { color: { background: getCssVar('--expert-fill'), border: getCssVar('--expert-stroke')}},
+                    job: { color: { background: getCssVar('--job-fill'), border: getCssVar('--job-stroke')}},
+                    certification: { color: { background: getCssVar('--certification-fill'), border: getCssVar('--certification-stroke')}}
+                }
+            };
+
+            // If network already exists, destroy it first to re-render
+            if (network !== null) {
+                network.destroy();
+            }
+
+            // Create network with the current data sets
+            network = new vis.Network(container, { nodes: nodesVisDataSet, edges: edgesVisDataSet }, options);
+
+            // Fit the graph to the container initially, after it's drawn
+            // Apply layout forcefully to ensure it's decluttered as per new options
+            network.once('afterDrawing', () => {
+                network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
+                network.stabilize(100); // Give it a moment to settle after fit
+            });
+        }
+        
+        // --- Dark Mode Toggle ---
+        const darkModeToggleCheckbox = document.getElementById('darkModeToggle');
+        const htmlElement = document.documentElement; // Target <html> for .dark-mode class
+        const modeIcon = document.getElementById('modeIcon');
+
+        function setModeIcon(isDark) {
+            if (isDark) {
+                modeIcon.classList.remove('fa-moon');
+                modeIcon.classList.add('fa-sun');
+            } else {
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');
+            }
+        }
+
+        const toggleDarkMode = () => {
+            const isChecked = darkModeToggleCheckbox.checked;
+            if (isChecked) {
+                htmlElement.classList.add('dark-mode'); 
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                htmlElement.classList.remove('dark-mode'); 
+                localStorage.setItem('darkMode', 'false');
+            }
+            // Re-render Vis.js graph to apply theme-specific styling
+            renderVisGraph(); 
+        };
+
+        // --- Accordion Logic ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const icon = header.querySelector('.accordion-icon');
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                // Optional: Close other accordions if you want only one open at a time
+                // accordionItems.forEach(otherItem => {
+                //     if (otherItem !== item) { 
+                //         otherItem.classList.remove('active');
+                //         const otherIcon = otherItem.querySelector('.accordion-icon');
+                //         otherIcon.classList.remove('fa-minus');
+                //         otherIcon.classList.add('fa-plus');
+                //     }
+                // });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    item.classList.remove('active');
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply dark mode preference on load
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            darkModeToggleCheckbox.checked = savedDarkMode;
+            if (savedDarkMode) {
+                htmlElement.classList.add('dark-mode');
+            } else {
+                htmlElement.classList.remove('dark-mode'); 
+            }
+            setModeIcon(savedDarkMode);
+
+            // Initialize Vis.js graph
+            renderVisGraph(); 
+            
+            // Attach event listener for dark mode toggle
+            darkModeToggleCheckbox.addEventListener('change', toggleDarkMode);
+
+            // Open the first accordion item by default
+            if (accordionItems.length > 0) {
+                const firstItem = accordionItems[0];
+                firstItem.classList.add('active');
+                const firstIcon = firstItem.querySelector('.accordion-icon');
+                firstIcon.classList.remove('fa-plus');
+                firstIcon.classList.add('fa-minus');
+            }
+        });
+
+    </script>
+</body>
+</html>
