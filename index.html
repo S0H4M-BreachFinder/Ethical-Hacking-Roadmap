@@ -764,7 +764,18 @@
             { from: 'AdvMobileSec', to: 'MobileSecAnalyst' },
             { from: 'MalwareAnalysis', to: 'MalwareAnalyst' },
             { from: 'RevEng', to: 'MalwareAnalyst' } 
-        ];
+          
+{ from: "AdvCloudSec", to: "DevSecOps" },
+{ from: "AdvCloudSec", to: "RedTeamOp" },
+{ from: "AdvCloudSec", to: "SecurityArch" },
+{ from: "AdvCloudSec", to: "CloudSecEngineer" }
+
+{ from: "AdvRevEng", to: "ExploitDev" },
+{ from: "AdvRevEng", to: "ThreatIntel" },
+{ from: "RevEng", to: "MalwareAnalyst" },
+{ from: "AdvRevEng", to: "ReverseEngineerJob" }
+
+];
 
 
         function renderVisGraph() {
